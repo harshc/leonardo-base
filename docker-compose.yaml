@@ -15,9 +15,9 @@ services:
         ROCM_VERSION: ${ROCM_VERSION:-5.6}
         ROCM_LEVEL: ${ROCM_LEVEL:-runtime}
       tags:
-        - "ghcr.io/ai-dock/base-image:${IMAGE_TAG:-cuda-11.8.0-base-22.04}"
+        - "ghcr.io/leonardo/base-image:${IMAGE_TAG:-cuda-11.8.0-base-22.04}"
         
-    image: ghcr.io/ai-dock/base-image:${IMAGE_TAG:-cuda-11.8.0-base-22.04}
+    image: ghcr.io/leonardo/base-image:${IMAGE_TAG:-cuda-11.8.0-base-22.04}
     
     ## For Nvidia GPU's - You probably want to uncomment this
     #deploy:
@@ -40,7 +40,7 @@ services:
       # Will echo to root-owned authorized_keys file;
       # Avoids changing local file owner
       - ./config/authorized_keys:/root/.ssh/authorized_keys_mount
-      - ./config/provisioning/default.sh:/opt/ai-dock/bin/provisioning.sh
+      - ./config/provisioning/default.sh:/opt/leonardo/bin/provisioning.sh
       
     ports:
         # SSH available on host machine port 2222 to avoid conflict. Change to suit
@@ -64,4 +64,4 @@ services:
         - SSH_PORT_HOST=${SSH_PORT_HOST:-2222}
         - SERVICEPORTAL_PORT_HOST=${SERVICEPORTAL_PORT_HOST:-1111}
         - SERVICEPORTAL_METRICS_PORT=${SERVICEPORTAL_METRICS_PORT:-21111}
-        #- PROVISIONING_SCRIPT=https://raw.githubusercontent.com/ai-dock/base-image/main/config/provisioning/default.sh
+        #- PROVISIONING_SCRIPT=https://raw.githubusercontent.com/leonardo/base-image/main/config/provisioning/default.sh

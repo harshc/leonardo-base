@@ -44,14 +44,14 @@
     }
     
     @preauth {
-        path /ai-dock/pre-auth
+        path /leonardo/pre-auth
     }
     
     @default {
         path /*
     }
     
-    respond /ai-dock/health-check 200
+    respond /leonardo/health-check 200
 }
 
 #####
