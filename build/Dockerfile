@@ -62,9 +62,13 @@ ARG CUDNN_VERSION
 ARG CUDA_LEVEL
 ARG ROCM_VERSION
 ARG ROCM_LEVEL
+ARG PYTORCH_VERSION
+ENV PYTORCH_VERSION=${PYTORCH_VERSION}
 
 # Use build scripts to ensure we can build all targets from one Dockerfile in a single layer.
 # Don't put anything heavy in here - We can use multi-stage building above if necessary.
+
+
 RUN yes | unminimize && \
     set -eo pipefail && /opt/leonardo/bin/build/layer0/init.sh | tee /var/log/build.log
 

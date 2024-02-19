@@ -20,6 +20,10 @@ jobs:
       matrix:
         cuda:
           - 12.3.1
+        python:
+          - ["3.12", "python_312"]
+        pytorch:
+          - "2.2.0"
         level:
           - "base"
     steps:
@@ -70,6 +74,9 @@ jobs:
             XPU_TARGET=NVIDIA_GPU
             CUDA_VERSION=${{ matrix.cuda }}
             CUDA_LEVEL=${{ matrix.level }}
+            PYTHON_VERSION=${{ matrix.python[0] }}
+            PYTHON_MAMBA_NAME=${{ matrix.python[1] }}
+            PYTORCH_VERSION=${{ matrix.pytorch }}
           push: true
           provenance: false
           tags: ${{ env.TAGS }}

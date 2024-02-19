@@ -5,6 +5,10 @@ env-store MAMBA_CREATE
 export MAMBA_INSTALL="micromamba install --always-softlink -y -c conda-forge"
 env-store MAMBA_INSTALL
 
+printf "export MAMBA_CREATE=\"%s\"\n" "${MAMBA_CREATE}" >> /opt/leonardo/etc/environment.sh
+printf "export MAMBA_INSTALL=\"%s\"\n" "${MAMBA_INSTALL}" >> /opt/leonardo/etc/environment.sh
+
+
 groupadd -g 1111 leonardo
 
 dpkg --add-architecture i386
@@ -126,6 +130,7 @@ printf "source /opt/leonardo/etc/environment.sh\n" >> /etc/bash.bashrc
 # Install packages
 build_common_main() {
     build_common_do_mamba_install "python_312" "3.12"
+    build_common_do_pytorch_install
 }
 
 build_common_do_mamba_install() {
@@ -133,4 +138,21 @@ build_common_do_mamba_install() {
     printf "/opt/micromamba/envs/%s/lib\n" "$1" >> /etc/ld.so.conf.d/x86_64-linux-gnu.micromamba.80-python.conf
 }
 
+build_common_do_pytorch_install() {
+    if [[ $PYTORCH_VERSION == "2.0.1" ]]; then
+        ffmpeg_version="4.4"
+    else
+        ffmpeg_version="6.*"
+    fi
+
+    $MAMBA_INSTALL -n $MAMBA_DEFAULT_ENV \
+    ffmpeg="$ffmpeg_version" \
+    sox=14.4.2
+}
+
 build_common_main "$@"
+
+
+
+
+
