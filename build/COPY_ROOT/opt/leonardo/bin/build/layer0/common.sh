@@ -129,7 +129,13 @@ printf "source /opt/leonardo/etc/environment.sh\n" >> /etc/bash.bashrc
 
 # Install packages
 build_common_main() {
-    build_common_do_mamba_install "python_312" "3.12"
+     if [[ $PYTHON_VERSION != "all" ]]; then
+        build_common_do_mamba_install "${PYTHON_MAMBA_NAME}" "${PYTHON_VERSION}"
+    else
+        # Multi Python
+        build_common_do_mamba_install "python_312" "3.12"
+    fi
+    
     build_common_do_pytorch_install
 }
 

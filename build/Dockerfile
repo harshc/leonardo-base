@@ -63,7 +63,15 @@ ARG CUDA_LEVEL
 ARG ROCM_VERSION
 ARG ROCM_LEVEL
 ARG PYTORCH_VERSION
+
+ARG PYTHON_VERSION=3.12
+ENV PYTHON_VERSION=${PYTHON_VERSION}
+ARG PYTHON_MAMBA_NAME=python_312
 ENV PYTORCH_VERSION=${PYTORCH_VERSION}
+ENV PYTHON_MAMBA_NAME=${PYTHON_MAMBA_NAME}
+ENV MAMBA_DEFAULT_ENV=${PYTHON_MAMBA_NAME}
+ENV MAMBA_DEFAULT_RUN="micromamba run -n $MAMBA_DEFAULT_ENV"
+ENV OPT_SYNC=$OPT_SYNC
 
 # Use build scripts to ensure we can build all targets from one Dockerfile in a single layer.
 # Don't put anything heavy in here - We can use multi-stage building above if necessary.
