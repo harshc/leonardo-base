@@ -10,8 +10,8 @@ RUN apt-get update && \
     wget https://dl.google.com/go/go1.22.0.linux-amd64.tar.gz && \
     tar -xf go1.22.0.linux-amd64.tar.gz && \
     mv ./go /opt && \ 
-    wget https://github.com/caddyserver/xcaddy/releases/download/v2.7.6/xcaddy_2.7.7_linux_amd64.deb && \
-    apt-get install ./xcaddy_2.7.6_linux_amd64.deb && \
+    wget https://github.com/caddyserver/xcaddy/releases/download/v0.3.5/xcaddy_0.3.5_linux_amd64.deb && \
+    apt-get install ./xcaddy_0.3.5_linux_amd64.deb && \
     xcaddy build \
         --with github.com/caddyserver/replace-response && \
     mkdir -p /opt/caddy/bin && \
