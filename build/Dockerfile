@@ -68,9 +68,5 @@ ARG ROCM_LEVEL
 RUN yes | unminimize && \
     set -eo pipefail && /opt/leonardo/bin/build/layer0/init.sh | tee /var/log/build.log
 
-# Copy overrides and new files into a final layer for fast rebuilds. Uncomment below
-COPY --chown=0:1111 ./COPY_ROOT_EXTRA/ /
-RUN set -eo pipefail && /opt/leonardo/bin/build/layer1/init.sh | tee -a /var/log/build.log
-
 # Keep init.sh as-is and place additional logic in /opt/leonardo/bin/preflight.sh
 CMD ["init.sh"]
