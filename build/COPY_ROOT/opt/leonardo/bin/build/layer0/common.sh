@@ -122,3 +122,15 @@ printf "source /opt/leonardo/etc/environment.sh\n" >> /etc/bash.bashrc
 
 # Give our runtime user full access (added to leonardo group)
 /opt/leonardo/bin/fix-permissions.sh -o container
+
+# Install packages
+build_common_main() {
+    build_common_do_mamba_install "python_312" "3.12"
+}
+
+build_common_do_mamba_install() {
+    $MAMBA_CREATE -n "$1" python="$2"
+    printf "/opt/micromamba/envs/%s/lib\n" "$1" >> /etc/ld.so.conf.d/x86_64-linux-gnu.micromamba.80-python.conf
+}
+
+build_common_main "$@"

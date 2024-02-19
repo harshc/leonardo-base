@@ -532,8 +532,5 @@ function init_debug_print() {
 umask 002
 printf "Init started: %s\n" "$(date +"%x %T.%3N")" > /var/log/timing_data
 ldconfig
-if [[ ${SERVERLESS,,} != 'true' ]]; then
-    init_main "$@"; exit
-else
-    init_serverless "$@"; exit
-fi
+init_main "$@"
+exit

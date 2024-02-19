@@ -8,10 +8,6 @@ source /opt/leonardo/bin/build/layer0/common.sh
 
 if [[ "$XPU_TARGET" == "NVIDIA_GPU" ]]; then
     source /opt/leonardo/bin/build/layer0/nvidia.sh
-# elif [[ "$XPU_TARGET" == "AMD_GPU" ]]; then
-#    source /opt/leonardo/bin/build/layer0/amd.sh
-elif [[ "$XPU_TARGET" == "CPU" ]]; then
-    source /opt/leonardo/bin/build/layer0/cpu.sh
 else
     printf "No valid XPU_TARGET specified\n" >&2
     exit 1
