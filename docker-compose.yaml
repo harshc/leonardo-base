@@ -6,8 +6,8 @@ services:
       context: ./build
       args:
         # Remove as appropriate
-        IMAGE_BASE: ${IMAGE_BASE:-nvidia/cuda:12.3.1-base-ubuntu22.04}
-        IMAGE_TAG: ${IMAGE_TAG:-cuda-12.3.1-base-22.04}
+        IMAGE_BASE: ${IMAGE_BASE:-nvidia/cuda:12.1.0-base-ubuntu22.04}
+        IMAGE_TAG: ${IMAGE_TAG:-cuda-12.1.0-base-22.04}
         XPU_TARGET: ${XPU_TARGET:-NVIDIA_GPU}
         CUDA_VERSION: ${CUDA_VERSION:-11.8.0}
         CUDA_LEVEL: ${CUDA_LEVEL:-base}
@@ -15,9 +15,9 @@ services:
         PYTHON_VERSION: ${PYTHON_VERSION:-all}
         PYTHON_MAMBA_NAME: ${PYTHON_MAMBA_NAME:-python_312}
       tags:
-        - "ghcr.io/harshc/leonardo-base:${IMAGE_TAG:-py312-cuda-12.3.1-base-22.04}"
+        - "ghcr.io/harshc/leonardo-base:${IMAGE_TAG:-py312-cuda-12.1.0-base-22.04}"
         
-    image: ghcr.io/harshc/leonardo-base:${IMAGE_TAG:-py312-cuda-12.3.1-base-22.04}
+    image: ghcr.io/harshc/leonardo-base:${IMAGE_TAG:-py312-cuda-12.1.0-base-22.04}
     
     ## For Nvidia GPU's - You probably want to uncomment this
     #deploy:
