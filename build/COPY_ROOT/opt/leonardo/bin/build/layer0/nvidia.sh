@@ -31,9 +31,9 @@ build_common_do_pytorch_install() {
         python=${python_lock} \
         pytorch-cuda=${cuda_short_version}
     
-    printf "CUDA Version: " "${cuda_short_version}\n" 
-    printf "Mamba Default Env: " "${MAMBA_DEFAULT_ENV}\n"
-    printf "Pytorch Version: " "${PYTORCH_VERSION} \n"
+    printf "CUDA Version: %s\n\n" "${cuda_short_version}" 
+    printf "Mamba Default Env: %s\n\n" "${MAMBA_DEFAULT_ENV}"
+    printf "Pytorch Version: %s\n\n" "${PYTORCH_VERSION}"
 }
 
 build_common_do_pytorch_install "$@"

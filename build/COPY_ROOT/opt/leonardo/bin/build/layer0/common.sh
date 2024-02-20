@@ -86,11 +86,6 @@ $PIP_INSTALL \
   python-multipart \
   websockets
 
-# Get Cloudflare daemon
-wget -c -O cloudflared.deb https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64.deb
-dpkg -i cloudflared.deb
-rm cloudflared.deb
-
 # Prepare environment for running SSHD
 chmod 700 /root
 mkdir -p /root/.ssh

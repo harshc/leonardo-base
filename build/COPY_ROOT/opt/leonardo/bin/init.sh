@@ -307,13 +307,6 @@ init_set_workspace_permissions() {
     /opt/leonardo/bin/fix-permissions.sh
 }
 
-function init_set_cf_tunnel_wanted() {
-    if [[ -n $CF_TUNNEL_TOKEN ]]; then
-        export SUPERVISOR_START_CLOUDFLARED=1 
-    else
-        export SUPERVISOR_START_CLOUDFLARED=0
-    fi
-}
 
 function init_direct_address() {
     export EXTERNAL_IP_ADDRESS="$(dig +short myip.opendns.com @resolver1.opendns.com)"
