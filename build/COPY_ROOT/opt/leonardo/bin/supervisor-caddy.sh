@@ -9,11 +9,6 @@ function cleanup() {
 function start() {
     source /opt/leonardo/etc/environment.sh
     
-    if [[ ${SERVERLESS,,} = "true" ]]; then
-        printf "Refusing to start Caddy service in serverless mode\n"
-        exec sleep 5
-    fi
-    
     # Give processes time to register their ports
     sleep 2
     port_files="/run/http_ports/*"

@@ -44,30 +44,6 @@ function init_main() {
     wait
 }
 
-# A trimmed down init suitable for serverless infrastructure
-init_serverless() {
-  init_set_envs "$@"
-  export CF_QUICK_TUNNELS_COUNT=0
-  export SUPERVISOR_START_CLOUDFLARED=0
-  init_set_workspace
-  touch "${WORKSPACE}.update_lock"
-  init_count_gpus
-  init_create_directories
-  init_create_logfiles
-  touch /run/container_config
-  touch /run/workspace_sync
-  init_write_environment
-  init_create_user
-  init_sync_mamba_envs > /var/log/sync.log 2>&1
-  init_sync_opt >> /var/log/sync.log 2>&1
-  rm /run/workspace_sync
-  init_source_preflight_script > /var/log/preflight.log 2>&1
-  rm /run/container_config
-  supervisord -c /etc/supervisor/supervisord.conf &
-  printf "Init complete: %s\n" "$(date +"%x %T.%3N")" >> /var/log/timing_data
-  wait
-}
-
 function init_set_envs() {
     for i in "$@"; do
         IFS="=" read -r key val <<< "$i"
@@ -289,20 +265,6 @@ function init_sync_mamba_envs() {
       printf "Mamba environments already present at ${WORKSPACE}\n"
       rm -rf /opt/micromamba/*
       link-mamba-envs.sh
-    else
-      # Complete the copy if not serverless
-      if [[ ${SERVERLESS,,} != 'true' ]]; then
-          mkdir -p ${WORKSPACE}/environments
-          printf "Moving mamba environments to %s...\n" "${WORKSPACE}"
-          while sleep 10; do printf "Waiting for workspace mamba sync...\n"; done &
-            rsync -rlptDu --stats /opt/micromamba/ "${ws_mamba_target}"
-          kill $!
-          wait $! 2>/dev/null
-          printf "Moved mamba environments to %s\n" "${WORKSPACE}"
-          rm -rf /opt/micromamba/*
-          printf 1 > ${ws_mamba_target}/.move_complete
-          link-mamba-envs.sh
-      fi
 fi
 printf "Mamba sync complete: %s\n" "$(date +"%x %T.%3N")" >> /var/log/timing_data
 }
@@ -342,19 +304,6 @@ init_sync_opt() {
         if [[ -d $ws_dir && -f $ws_dir/.move_complete ]]; then
             # Delete the container copy
             if [[ -d $opt_dir && ! -L $opt_dir ]]; then
-                rm -rf "$opt_dir"
-            fi
-        # No/incomplete workspace copy
-        else
-            # Complete the copy if not serverless
-            if [[ ${SERVERLESS,,} != 'true' ]]; then
-                printf "Moving %s to %s\n" "$opt_dir" "$ws_dir"
-                while sleep 10; do printf "Waiting for workspace application sync...\n"; done &
-                rsync -auSHh --stats "$opt_dir" "$WORKSPACE"
-                kill $!
-                wait $! 2>/dev/null
-                printf "Moved %s to %s\n" "$opt_dir" "$ws_dir"
-                printf 1 > $ws_dir/.move_complete
                 rm -rf "$opt_dir"
             fi
         fi
