@@ -21,6 +21,8 @@ printf "export MAMBA_INSTALL=\"%s\"\n" "${MAMBA_INSTALL}" >> /opt/leonardo/etc/e
 
 build_common_do_pytorch_install() {
     cuda_short_version=$(cut -d '.' -f 1,2 <<< "${CUDA_VERSION}")
+    printf "Installing Pytorch.....\n"
+    
     # Mamba will downgrade python to satisfy requirements. We don't want that.
     python_lock=$(micromamba -n $MAMBA_DEFAULT_ENV run python -V|awk '{print $2}'|cut -d '.' -f1,2)
 
@@ -28,6 +30,10 @@ build_common_do_pytorch_install() {
         pytorch=${PYTORCH_VERSION} torchvision torchaudio \
         python=${python_lock} \
         pytorch-cuda=${cuda_short_version}
+    
+    printf "CUDA Version: " "${cuda_short_version}\n" 
+    printf "Mamba Default Env: " "${MAMBA_DEFAULT_ENV}\n"
+    printf "Pytorch Version: " "${PYTORCH_VERSION} \n"
 }
 
 build_common_do_pytorch_install "$@"

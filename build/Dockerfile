@@ -52,7 +52,6 @@ ENV APT_INSTALL="apt-get install -y --no-install-recommends"
 ENV PIP_INSTALL="pip install --no-cache-dir"
 ENV MAMBA_ROOT_PREFIX=/opt/micromamba
 ENV MAMBA_EXE="/opt/micromamba/bin/micromamba"
-ENV RCLONE_CONFIG="/etc/rclone/rclone.conf"
 ENV IMAGE_SLUG="base-image"
 # Copy early so we can use scripts in the build - Changes to these files will invalidate the cache and cause a rebuild.
 COPY --chown=0:1111 ./COPY_ROOT/ /
@@ -60,8 +59,6 @@ COPY --chown=0:1111 ./COPY_ROOT/ /
 ARG CUDA_VERSION
 ARG CUDNN_VERSION
 ARG CUDA_LEVEL
-ARG ROCM_VERSION
-ARG ROCM_LEVEL
 ARG PYTORCH_VERSION
 
 ARG PYTHON_VERSION=3.12

@@ -116,8 +116,6 @@ chmod -R g+s /var/log
 mkdir -p /opt/leonardo/lib/micromamba
 mkdir -p /var/log/supervisor
 mkdir -p /var/empty
-mkdir -p /etc/rclone
-touch /etc/rclone/rclone.conf
 
 # Ensure correct environment for child builds
 

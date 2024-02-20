@@ -20,8 +20,6 @@ function init_main() {
     init_set_web_credentials
     init_set_workspace
     init_count_gpus
-    init_count_quicktunnels
-    init_set_cf_tunnel_wanted
     touch /run/container_config
     touch /run/workspace_sync
     init_write_environment
@@ -100,15 +98,6 @@ function init_set_ssh_keys() {
 init_set_web_credentials() {
   export SERVICEPORTAL_LOGIN=$(direct-url.sh -p "${SERVICEPORTAL_PORT_HOST:-1111}" -l "/login")
   export SERVICEPORTAL_HOME=$(direct-url.sh -p "${SERVICEPORTAL_PORT_HOST:-1111}")
-
-  # Handle cloud provider auto login
-  # Vast.ai
-  if [[ $(env | grep -i vast) && -n $OPEN_BUTTON_TOKEN ]]; then
-      export WEB_TOKEN="${OPEN_BUTTON_TOKEN}"
-      if [[ $WEB_PASSWORD == "password" ]]; then
-          unset WEB_PASSWORD
-      fi
-  fi
   
   if [[ -z $WEB_USER ]]; then
       export WEB_USER=user
@@ -138,22 +127,8 @@ function init_count_gpus() {
         if [[ "$XPU_TARGET" == "NVIDIA_GPU" && -d "$nvidia_dir" ]]; then
             GPU_COUNT="$(echo "$(find "$nvidia_dir" -maxdepth 1 -type d | wc -l)"-1 | bc)"
             export GPU_COUNT
-        # TODO FIXME
-        elif [[ "$XPU_TARGET" == "AMD_GPU" ]]; then
-            export GPU_COUNT=1
         else
             export GPU_COUNT=0
-        fi
-    fi
-}
-
-function init_count_quicktunnels() {
-    if [[ ${CF_QUICK_TUNNELS,,} == "false" ]]; then
-        export CF_QUICK_TUNNELS_COUNT=0
-    else
-        export CF_QUICK_TUNNELS_COUNT=$(grep -l "QUICKTUNNELS=true" /opt/leonardo/bin/supervisor-*.sh | wc -l)
-        if [[ -z $TUNNEL_TRANSPORT_PROTOCOL ]]; then
-            export TUNNEL_TRANSPORT_PROTOCOL=http2
         fi
     fi
 }
