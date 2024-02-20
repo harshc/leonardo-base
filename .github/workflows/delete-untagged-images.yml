@@ -23,7 +23,7 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            const response = await github.request("GET /${{ env.OWNER }}/packages/container/${{ github.event.repository.name  }}/versions",
+            const response = await github.request("GET /orgs/${{ env.OWNER }}/packages/container/${{ github.event.repository.name  }}/versions",
               { per_page: ${{ env.PER_PAGE }}
             });
 
@@ -39,7 +39,7 @@ jobs:
             for (let page = pages; page >= 1; page--) {
               console.log("Processing page " + page)
               
-              const response = await github.request("GET /${{ env.OWNER }}/packages/container/${{ github.event.repository.name  }}/versions",
+              const response = await github.request("GET /orgs/${{ env.OWNER }}/packages/container/${{ github.event.repository.name  }}/versions",
               { 
                   per_page: ${{ env.PER_PAGE }},
                   page: page
@@ -48,7 +48,7 @@ jobs:
               for (version of response.data) {
                 if (version.metadata.container.tags.length == 0) {
                     console.log("delete " + version.id)
-                    const deleteResponse = await github.request("DELETE /${{ env.OWNER }}/packages/container/${{ github.event.repository.name }}/versions/" + version.id, { });
+                    const deleteResponse = await github.request("DELETE /orgs/${{ env.OWNER }}/packages/container/${{ github.event.repository.name }}/versions/" + version.id, { });
                         console.log("status " + deleteResponse.status)
                 }
               }

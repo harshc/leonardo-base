@@ -74,7 +74,7 @@ jobs:
             const now = new Date();
             const epoch_minutes = Math.round(now.getTime() / 1000 / 60);
             
-            const response = await github.request("GET /${{ env.OWNER }}/packages/container/${{ github.event.repository.name  }}/versions",
+            const response = await github.request("GET /orgs/${{ env.OWNER }}/packages/container/${{ github.event.repository.name  }}/versions",
               { per_page: ${{ env.PER_PAGE }}
             });
 
@@ -90,7 +90,7 @@ jobs:
             for (let page = pages; page >= 1; page--) {
               console.log("Processing page " + page)
               
-              const response = await github.request("GET /${{ env.OWNER }}/packages/container/${{ github.event.repository.name  }}/versions",
+              const response = await github.request("GET /orgs/${{ env.OWNER }}/packages/container/${{ github.event.repository.name  }}/versions",
               { 
                   per_page: ${{ env.PER_PAGE }},
                   page: page
@@ -103,7 +103,7 @@ jobs:
                 console.log("Package is " + minutes_old + " minutes old")
                 if (minutes_old > delete_age) {
                     console.log("delete " + version.id)
-                    const deleteResponse = await github.request("DELETE /${{ env.OWNER }}/packages/container/${{ github.event.repository.name }}/versions/" + version.id, { });
+                    const deleteResponse = await github.request("DELETE /orgs/${{ env.OWNER }}/packages/container/${{ github.event.repository.name }}/versions/" + version.id, { });
                         console.log("status " + deleteResponse.status)
                 }
               }
