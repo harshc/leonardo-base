@@ -9,15 +9,15 @@ services:
         IMAGE_BASE: ${IMAGE_BASE:-nvidia/cuda:12.1.0-base-ubuntu22.04}
         IMAGE_TAG: ${IMAGE_TAG:-cuda-12.1.0-base-22.04}
         XPU_TARGET: ${XPU_TARGET:-NVIDIA_GPU}
-        CUDA_VERSION: ${CUDA_VERSION:-11.8.0}
+        CUDA_VERSION: ${CUDA_VERSION:-12.1.0}
         CUDA_LEVEL: ${CUDA_LEVEL:-base}
         CUDNN_VERSION: ${CUDNN_VERSION:-8}
         PYTHON_VERSION: ${PYTHON_VERSION:-all}
         PYTHON_MAMBA_NAME: ${PYTHON_MAMBA_NAME:-python_312}
       tags:
-        - "ghcr.io/harshc/leonardo-base:${IMAGE_TAG:-py312-cuda-12.1.0-base-22.04}"
+        - "ghcr.io/harshc/leonardo-base:${IMAGE_TAG:-pytorch-2.2.0-py3.12-cuda-12.1.0-ubuntu-22.04}"
         
-    image: ghcr.io/harshc/leonardo-base:${IMAGE_TAG:-py312-cuda-12.1.0-base-22.04}
+    image: ghcr.io/harshc/leonardo-base:${IMAGE_TAG:-pytorch-2.2.0-py312-cuda-12.1.0-ubuntu-22.04}
     
     ## For Nvidia GPU's - You probably want to uncomment this
     #deploy:
